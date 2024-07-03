@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+
+   <fb:login-button 
+      scope="public_profile,email"
+      onlogin="checkLoginState();">
+   </fb:login-button>
+<script>
+   function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    }
+   window.fbAsyncInit = function() {
+     FB.init({
+       appId      : '1899979343682131',
+       cookie     : true,
+       xfbml      : true,
+       version    : 'v1.0'
+     });
+       
+     FB.AppEvents.logPageView();   
+       
+   };
+ 
+   (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+ </script>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+      <div id="g_id_onload"
+         data-client_id="921126878392-qtaikgtoci4df7oohde5lglijj4a1c5t.apps.googleusercontent.com"
+         data-login_uri="http://localhost:5500/login.html"
+         data-auto_prompt="true"
+         data-callback="handleCredentialResponse">
+      </div>
+      <div style="background-color: black;" class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left"
+         >
+      </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+      <script>
+        function handleCredentialResponse(response) {
+           // decodeJwtResponse() is a custom function defined by you
+           // to decode the credential response.
+           console.log(response.credential, response);
+
+           /*axios.post('http://localhost:5050/api/v1/users/auth/google-login', { accessToken: response.credential }).then((res) => {
+            console.log(res);
+           }).catch(err => console.log(err.response));
+           const responsePayload = decodeJwtResponse(response.credential); */
+      
+           console.log("ID: " + responsePayload.sub);
+           console.log('Full Name: ' + responsePayload.name);
+           console.log('Given Name: ' + responsePayload.given_name);
+           console.log('Family Name: ' + responsePayload.family_name);
+           console.log("Image URL: " + responsePayload.picture);
+           console.log("Email: " + responsePayload.email);
+        }
+      </script>
+</body>
+</html>
