@@ -35,15 +35,6 @@ export class AdminService {
         'paginatedUsers': users
     };
 
-    // let userQuery = this.apiFeatures.api(this.userModel, query)
-    //                 .filter()
-    //                 .search(['name', 'email'])
-    //                 .sort()
-    //                 .limitFields()
-
-    // if (populate !== undefined) userQuery = userQuery.populate(populate);
-
-    // return await userQuery.query.lean();
   }
 
 

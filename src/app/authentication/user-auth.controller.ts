@@ -6,6 +6,8 @@ import {
   ForbiddenException,
   NotFoundException,
   Post,
+  Get,
+  Query,
   Request,
   UnauthorizedException,
   UseFilters,
@@ -27,6 +29,7 @@ import { GoogleAuthService } from '@app/services/google.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { JwtVerifyLoginSession } from '@core/auth/jwt-a';
 import { CachingService } from '@core/modules/caching';
+import { QueryOptions } from '@app/common/helpers';
 
 @UseFilters(HttpValidationFilter)
 @UseFilters(MongooseExceptionFilter)
@@ -124,6 +127,22 @@ export class UsersAuthController {
 
     return value;
   }
+  
+  // save notification
+  @Post('notification')
+  async saveNotification(@Body() body: any) {
+    return await this.usersAuthService.saveNotification(body);
+  }
+  
+  // fetch notification
+  @Get('notification')
+  async fetchNotification(@Query() query) {
+    const { otherQuery, paginateOptions } = QueryOptions(query, true);
+        
+    return await this.usersAuthService.findAll(otherQuery, paginateOptions);
+  }
+
+
 
   @MessagePattern({ cmd: 'USER_AUTH' })
   async MSAuth(data: { token: string }) {

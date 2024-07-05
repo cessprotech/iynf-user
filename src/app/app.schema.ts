@@ -168,8 +168,34 @@ AdminSchema.methods.validatePassword = async function (password: string) {
 };
 
 
+
+@Schema({ timestamps: true })
+export class Notification extends Document{ 
+    @Prop()
+    title: string
+
+    @Prop()
+    body: string
+
+    @Prop()
+    type: string
+
+    @Prop()
+    img: string
+
+    @Prop()
+    timestamp: string
+}
+
+const NotificationModelName = Notification.name;
+const NotificationSchema = CREATE_SCHEMA<Notification>(Notification);
+
+
+
 const AdminModel = { name: AdminModelName, schema: AdminSchema };
+
+const NotificationModel = { name: NotificationModelName, schema: NotificationSchema };
 
 const UserModel = { name: UserModelName, schema: UserSchema };
 
-export { UserSchema, UserModelName, UserModel, AdminModel, AdminModelName, AdminSchema };
+export { UserSchema, UserModelName, UserModel, AdminModel, AdminModelName, AdminSchema, NotificationModel, NotificationModelName,  NotificationSchema };

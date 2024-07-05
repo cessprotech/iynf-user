@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
-import { Model, PaginateModel, Connection } from 'mongoose';
-import { UserModelName, User } from '@app/app.schema';
+import { Model, PaginateModel, Connection, PaginateOptions } from 'mongoose';
+import { UserModelName, User, Notification, NotificationModelName } from '@app/app.schema';
 import { UserAuth, UserAuthSessionInterface, USER_AUTH_EVENTS } from './user-auth.constant';
 import {
   ChangePasswordDto,
@@ -38,6 +38,8 @@ export class UsersAuthService {
     @InjectConnection() private readonly connection: Connection,
 
     @InjectModel(UserModelName) public readonly userModel: Model<User>,
+
+    @InjectModel(NotificationModelName) public readonly notificationModel: Model<Notification>,
 
     @InjectModel(UserAuthSessionModelName)
     private readonly userAuthSessionModel: Model<User_Auth_Session> & PaginateModel<User_Auth_Session>,
@@ -191,6 +193,39 @@ export class UsersAuthService {
     if (sessionDetails?.lastPasswordChanged >= sessionDetails?.lastLoggedIn) throw new BadRequestException('Password Was Recently Changed! Please Sign in.');
 
     return this.userModel.findOne({ email: query.email });
+
+  }
+
+  // save notification service
+  async saveNotification(body: any) {
+
+    try {
+      const notify =  await this.notificationModel.create(body);     
+
+      return { message: 'success', notify }
+
+    } catch (error) {
+
+      console.log(error.message);
+      this.logger.error(error.message, error.stack);
+      if (error.message.includes('collection') || error.message.includes('iynfluencer')) throw error;
+
+      throw new InternalServerErrorException('Notification cannot be created now! Try again later.');
+    }
+    
+  }
+
+
+  async findAll(query: Record<string, any>, paginateOptions: PaginateOptions = {}) {
+    const {page, limit, select, sort, ...rest} = query;
+
+    let notify = await this.notificationModel.paginate(rest, paginateOptions);
+    const totalNotify = await this.notificationModel.countDocuments();
+
+    return {
+        'totalAmount': totalNotify,
+        'paginatedNotifications': notify
+    };
 
   }
 }

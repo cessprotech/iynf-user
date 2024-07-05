@@ -13,7 +13,7 @@ import { EventEmitModule } from '@core/modules/event-emitter';
 import { ShutdownService } from '@core/power.service';
 import { CachingModule } from '@core/modules/caching';
 import { MicroServicesConfig } from './config.service';
-import { AdminModel, UserModel } from './app.schema';
+import { AdminModel, NotificationModel, UserModel } from './app.schema';
 import { UserAuthSessionModel, UsersAuthController, UsersAuthService } from './authentication';
 import { TempUserModel } from './schema/temp.users.schema';
 import { MeController } from './authentication/me.controller';
@@ -33,7 +33,7 @@ import { AdminService } from './authentication/admin.auth.service';
   imports: [
     DB_CONNECTION,
 
-    MODEL_INJECT([UserModel, AdminModel, UserAuthSessionModel, TempUserModel, FollowModel]),
+    MODEL_INJECT([UserModel, AdminModel, NotificationModel, UserAuthSessionModel, TempUserModel, FollowModel]),
 
     EventEmitModule,
 
