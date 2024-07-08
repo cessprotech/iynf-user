@@ -182,9 +182,6 @@ export class Notification extends Document{
 
     @Prop()
     img: string
-
-    @Prop()
-    timestamp: string
 }
 
 const NotificationModelName = Notification.name;
