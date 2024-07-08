@@ -39,7 +39,8 @@ export class UsersAuthService {
 
     @InjectModel(UserModelName) public readonly userModel: Model<User>,
 
-    @InjectModel(NotificationModelName) public readonly notificationModel: Model<Notification>,
+    @InjectModel(NotificationModelName) 
+    public readonly notificationModel: Model<Notification> & PaginateModel<Notification>,
 
     @InjectModel(UserAuthSessionModelName)
     private readonly userAuthSessionModel: Model<User_Auth_Session> & PaginateModel<User_Auth_Session>,
