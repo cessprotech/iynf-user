@@ -114,6 +114,9 @@ export class User extends Document {
   @Prop({ default: true })
   active: boolean;
 
+  @Prop({ default: 0 })
+  balance: number;
+
   validatePassword: (password: string) => Promise<boolean>;
 }
 

@@ -1,6 +1,8 @@
 import { PaginateOptions } from 'mongoose';
 import { uniqueNamesGenerator, adjectives, colors, names, NumberDictionary } from 'unique-names-generator';
 const numberDictionary = NumberDictionary.generate({ min: 1, max: 999 });
+import { MSInterceptor } from "./interceptors";
+import { UseInterceptors, applyDecorators } from "@nestjs/common";
 
 export const generateUsername = () => uniqueNamesGenerator({
 dictionaries: [adjectives, names, numberDictionary],
@@ -70,3 +72,9 @@ export const MapKeysToValues = <T>(obj: T) => {
 		},
 	{}) as unknown as Record<keyof T, string>;
 }
+
+export const MSController = () => {
+    return applyDecorators(
+      UseInterceptors(MSInterceptor),
+    );
+};

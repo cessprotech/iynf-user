@@ -28,6 +28,7 @@ import { AdminAuthController } from './authentication/admin.controller';
 import { AdminAuthService } from './authentication/admin.service';
 import { AdminController } from './authentication/admin.auth.controller';
 import { AdminService } from './authentication/admin.auth.service';
+import { appMController } from './app.m.controller';
 
 @Module({
   imports: [
@@ -56,7 +57,7 @@ import { AdminService } from './authentication/admin.auth.service';
     MicroServicesConfig(),
   ],
 
-  controllers: [AppController, MeController, UsersAuthController, AdminAuthController, AdminController],
+  controllers: [AppController, MeController, UsersAuthController, AdminAuthController, AdminController, appMController],
 
   providers: [AppService, UsersAuthService, AdminAuthService, AdminService, UserAuthEvents, ApiFeatures, GoogleAuthService, FollowService, ShutdownService, 
     {

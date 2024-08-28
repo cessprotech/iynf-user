@@ -149,4 +149,20 @@ export class AppService {
 
     return await this.generateUsername();
   }
+
+  async updateBalance(influencerId: string, amount: number) {
+    const influencer = await this.userModel.findOne({ influencerId });
+    
+    let price = influencer.balance
+    price += amount
+
+    return await this.userModel.findOneAndUpdate(
+      { influencerId: influencerId },
+      { $set: { balance: price } },
+      {
+        new: true,
+        runValidators: true
+      }
+    )
+  }
 }
