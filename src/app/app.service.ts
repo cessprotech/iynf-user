@@ -165,4 +165,15 @@ export class AppService {
       }
     )
   }
+
+  
+  
+  async addbalance() {
+
+    return await  this.userModel.updateMany(
+      {},
+      { $set: { balance: 0 } }
+  );
+
+  }
 }

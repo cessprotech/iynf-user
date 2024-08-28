@@ -139,4 +139,11 @@ export class MeController {
   async unfollow(@Param('userId') userId: string, @Req() req) {
     return this.followService.unfollow(req.user.userId, userId);
   }
+
+  
+  @Patch(`balance`)
+  @Response(USER_RESPONSE.DEFAULT)
+  async addbalance() {
+    return await this.appService.addbalance();
+  }
 }
