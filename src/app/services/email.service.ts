@@ -86,28 +86,18 @@
 //   }
 // }
 
-
-import { APP_CONFIG } from '@app/app.constants';
-import nodemailer from 'nodemailer';
-import Mailgen  = require('mailgen')
+import nodemailer from 'nodemailer'; // ES module import
+import Mailgen from 'mailgen'; // Use ES module import syntax
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
-
-const config_service = new ConfigService()
-
-const HOST: any = config_service.get<string>(APP_CONFIG.EMAIL_HOST)
-const PORT: any = config_service.get<string>(APP_CONFIG.EMAIL_PORT)
-const USER: any = config_service.get<string>(APP_CONFIG.EMAIL_USER)
-const PASS: any = config_service.get<string>(APP_CONFIG.EMAIL_PASS)
-
+import { APP_CONFIG } from '@app/app.constants';
 
 @Injectable()
 export class SendMailService {
-    private transporter: any
-    private mailGenerator: any
+    private transporter: any;
+    private mailGenerator: any;
 
-    constructor() {
+    constructor(private configService: ConfigService) { 
         // Configure mailgen by setting a theme and your product info
         this.mailGenerator = new Mailgen({
             theme: 'default',
@@ -120,32 +110,31 @@ export class SendMailService {
 
         // Configure nodemailer transporter
         this.transporter = nodemailer.createTransport({
-            host: HOST,
-            port: PORT,
+            host: this.configService.get<string>(APP_CONFIG.EMAIL_HOST),
+            port: this.configService.get<number>(APP_CONFIG.EMAIL_PORT),
             secure: true,
             auth: {
-            user: USER,
-            pass: PASS
+                user: this.configService.get<string>(APP_CONFIG.EMAIL_USER),
+                pass: this.configService.get<string>(APP_CONFIG.EMAIL_PASS)
             }
         });
     }
 
-    generateOtp(){
-        let num: string = ""
-        for(let i = 0; i < 6; i++){ 
-            num += Math.floor(Math.random() * (9 - 0 + 1)) + 0;
+    generateOtp(): string {
+        let num = "";
+        for (let i = 0; i < 6; i++) { 
+            num += Math.floor(Math.random() * 10).toString();
         }
-        return num
+        return num;
     }
 
-    async sendRegisterMail(to: string, name: string) {
+    async sendRegisterMail(to: string, name: string): Promise<boolean> {
         try {
-            let num = this.generateOtp()
-            var emailSender: any = {
+            const num = this.generateOtp();
+            const emailSender = {
                 body: {
                     name: `Hi ${name}`,
                     intro: 'Welcome onboard to Iynfluencer app where you can monetize your skill and find experienced influencers to market your business, platform or brand.',
-
                     action: {
                         instructions: 'To get started, enter the OTP in the app window',
                         button: {
@@ -154,23 +143,22 @@ export class SendMailService {
                             link: ''
                         }
                     },
-                    
-                    outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.\n\n Team Iynfluencer.'
+                    outro: "Need help, or have questions? Just reply to this email, we'd love to help.\n\n Team Iynfluencer."
                 }
             };
 
             // Generate an HTML email with the provided contents
-            const message =  this.mailGenerator.generate(emailSender)
+            const message = this.mailGenerator.generate(emailSender);
 
             const mailOptions = {
-                from: USER,
+                from: this.configService.get<string>(APP_CONFIG.EMAIL_USER),
                 to: to,
                 subject: 'Welcome Message',
                 html: message
             };
 
             const info = await this.transporter.sendMail(mailOptions);
-            return info.response.includes('OK'); // Assuming successful send if response includes 'OK'
+            return info.response.includes('OK');
         } catch (error) {
             console.error('Mail sending error:', error);
             return false;
@@ -201,7 +189,7 @@ export class SendMailService {
             const message =  this.mailGenerator.generate(emailSender)
 
             const mailOptions = {
-                from: USER,
+                from: this.configService.get<string>(APP_CONFIG.EMAIL_USER),
                 to: to,
                 subject: 'Forgot Password',
                 html: message
