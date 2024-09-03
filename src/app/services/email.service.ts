@@ -114,7 +114,7 @@ export class SendMailService {
             product: {
                 // Appears in header & footer of e-mails
                 name: 'Iynfluencer',
-                link: ''
+                link: 'https://www.Iynfluencer.com/'
             }
         });
 
