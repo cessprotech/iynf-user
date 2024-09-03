@@ -86,8 +86,8 @@
 //   }
 // }
 
-import nodemailer from 'nodemailer'; // ES module import
-import Mailgen from 'mailgen'; // Use ES module import syntax
+import nodemailer from 'nodemailer';
+import Mailgen = require('mailgen');
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { APP_CONFIG } from '@app/app.constants';
