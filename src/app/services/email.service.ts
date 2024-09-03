@@ -91,13 +91,16 @@ import { APP_CONFIG } from '@app/app.constants';
 import nodemailer from 'nodemailer';
 import Mailgen  = require('mailgen')
 import { Injectable } from '@nestjs/common';
-import dotenv from 'dotenv';
-dotenv.config();
+import { ConfigService } from '@nestjs/config';
 
-const HOST: any = APP_CONFIG.EMAIL_HOST
-const PORT: any = APP_CONFIG.EMAIL_PORT
-const USER: any = APP_CONFIG.EMAIL_USER
-const PASS: any = APP_CONFIG.EMAIL_PASS
+
+const config_service = new ConfigService()
+
+const HOST: any = config_service.get<string>(APP_CONFIG.EMAIL_HOST)
+const PORT: any = config_service.get<string>(APP_CONFIG.EMAIL_PORT)
+const USER: any = config_service.get<string>(APP_CONFIG.EMAIL_USER)
+const PASS: any = config_service.get<string>(APP_CONFIG.EMAIL_PASS)
+
 
 @Injectable()
 export class SendMailService {
