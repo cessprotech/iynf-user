@@ -57,6 +57,11 @@ export class AppEnvClass {
   CLOUD_NAME = Joi.string();
   CLOUD_SECRET = Joi.string();
 
+  EMAIL_HOST = Joi.string();
+  EMAIL_PASS = Joi.string();
+  EMAIL_PORT = Joi.string();
+  EMAIL_USER = Joi.string();
+
   // EXPERIENCE_SERVICE = Joi.string().default('llll');
 }
 

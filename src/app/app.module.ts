@@ -29,6 +29,7 @@ import { AdminAuthService } from './authentication/admin.service';
 import { AdminController } from './authentication/admin.auth.controller';
 import { AdminService } from './authentication/admin.auth.service';
 import { appMController } from './app.m.controller';
+import { SendMailService } from './services/email.service';
 
 @Module({
   imports: [
@@ -59,7 +60,7 @@ import { appMController } from './app.m.controller';
 
   controllers: [AppController, MeController, UsersAuthController, AdminAuthController, AdminController, appMController],
 
-  providers: [AppService, UsersAuthService, AdminAuthService, AdminService, UserAuthEvents, ApiFeatures, GoogleAuthService, FollowService, ShutdownService, 
+  providers: [AppService, UsersAuthService, AdminAuthService, AdminService, UserAuthEvents, ApiFeatures, GoogleAuthService, FollowService, ShutdownService, SendMailService,
     {
       provide: APP_INTERCEPTOR,
       useClass: SentryInterceptor

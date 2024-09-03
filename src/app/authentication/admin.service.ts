@@ -10,6 +10,7 @@ import { LogService, Logger } from '@core/logger';
 import { APP_CONFIG } from '@app/app.constants';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { SendMailService } from '@app/services/email.service';
 
 
 
@@ -26,9 +27,11 @@ export class AdminAuthService {
     // @InjectModel(UserAuthSessionModelName)
     // private readonly userAuthSessionModel: Model<User_Auth_Session> & PaginateModel<User_Auth_Session>,
     
-    @Inject(APP_CONFIG.MAILER_SERVICE) private readonly mailClient: ClientProxy,
+    // @Inject(APP_CONFIG.MAILER_SERVICE) private readonly mailClient: ClientProxy,
 
-    private eventEmitter: EventEmitter2
+    // private eventEmitter: EventEmitter2,
+
+    private readonly sendMailService: SendMailService
 
   ) {}
 
@@ -79,14 +82,7 @@ export class AdminAuthService {
 
     const token = Math.round(Math.random() * 900000 + 100000);
 
-    firstValueFrom(
-      this.mailClient.emit({ cmd: 'FORGOT_PASSWORD' }, {
-        firstName: 'iynfluencer',
-        lastName: 'admin',
-        email: admin.email,
-        token
-      }),
-    );
+    this.sendMailService.sendForgotMail(adminDta.email, `Admin`, token)
 
     return { token };
   }

@@ -18,6 +18,7 @@ import { LogService, Logger } from '@core/logger';
 import { APP_CONFIG } from '@app/app.constants';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { SendMailService } from '@app/services/email.service';
 
 
 export interface SocialUser {
@@ -45,9 +46,11 @@ export class UsersAuthService {
     @InjectModel(UserAuthSessionModelName)
     private readonly userAuthSessionModel: Model<User_Auth_Session> & PaginateModel<User_Auth_Session>,
     
-    @Inject(APP_CONFIG.MAILER_SERVICE) private readonly mailClient: ClientProxy,
+    // @Inject(APP_CONFIG.MAILER_SERVICE) private readonly mailClient: ClientProxy,
 
-    private eventEmitter: EventEmitter2
+    private eventEmitter: EventEmitter2,
+
+    private readonly sendMailService: SendMailService
 
   ) {}
 
@@ -65,14 +68,16 @@ export class UsersAuthService {
       session.endSession();
       
       this.eventEmitter.emit(USER_AUTH_EVENTS.CREATE, user);
+
+      this.sendMailService.sendRegisterMail(user.email, `${user.firstName + ' ' + user.lastName}`)
       
-      firstValueFrom(
-        this.mailClient.emit({ cmd: 'WELCOME_EMAIL' }, {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        }),
-      );
+      // firstValueFrom(
+      //  this.mailClient.emit({ cmd: 'WELCOME_EMAIL' }, {
+      //     firstName: user.firstName,
+      //     lastName: user.lastName,
+      //     email: user.email,
+      //   }),
+      // );
 
       return user.toObject();
 
@@ -144,14 +149,16 @@ export class UsersAuthService {
 
     const token = Math.round(Math.random() * 900000 + 100000);
 
-    firstValueFrom(
-      this.mailClient.emit({ cmd: 'FORGOT_PASSWORD' }, {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        token
-      }),
-    );
+    this.sendMailService.sendForgotMail(user.email, `${user.firstName + ' ' + user.lastName}`, token)
+
+    // firstValueFrom(
+    //   this.mailClient.emit({ cmd: 'FORGOT_PASSWORD' }, {
+    //     firstName: user.firstName,
+    //     lastName: user.lastName,
+    //     email: user.email,
+    //     token
+    //   }),
+    // );
 
     return { token };
   }
