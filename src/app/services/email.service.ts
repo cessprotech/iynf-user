@@ -134,7 +134,7 @@ export class SendMailService {
             const num = this.generateOtp();
             const emailSender = {
                 body: {
-                    name: `Hi ${name}`,
+                    name: `${name}`,
                     intro: 'Welcome onboard to Iynfluencer app where you can monetize your skill and find experienced influencers to market your business, platform or brand.',
                     action: {
                         instructions: 'To get started, enter the OTP in the app window',
@@ -170,7 +170,7 @@ export class SendMailService {
         try {
             var emailSender: any = {
                 body: {
-                    name: `Hi ${name}`,
+                    name: `${name}`,
                     intro: 'We got a request to reset your password, if this was you, enter the otp in the next page to reset password or ignore and nothing will happen to your account',
 
                     action: {
