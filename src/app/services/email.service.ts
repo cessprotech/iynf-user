@@ -112,7 +112,7 @@ export class SendMailService {
         this.mailGenerator = new Mailgen({
             theme: 'default',
             product: {
-                // Appears in header & footer of e-mails
+                // Appears in header & footer of e-mails sent
                 name: 'Iynfluencer',
                 link: 'https://www.Iynfluencer.com/'
             }
