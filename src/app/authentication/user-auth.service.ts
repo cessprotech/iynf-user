@@ -69,7 +69,7 @@ export class UsersAuthService {
       
       // this.eventEmitter.emit(USER_AUTH_EVENTS.CREATE, user);
 
-      this.sendMailService.sendRegisterMail(user.email, `${user.firstName + ' ' + user.lastName}`)
+      // this.sendMailService.sendRegisterMail(user.email, `${user.firstName + ' ' + user.lastName}`)
       
       // firstValueFrom(
       //  this.mailClient.emit({ cmd: 'WELCOME_EMAIL' }, {
@@ -149,7 +149,7 @@ export class UsersAuthService {
 
     const token = Math.round(Math.random() * 900000 + 100000);
 
-    this.sendMailService.sendForgotMail(user.email, `${user.firstName + ' ' + user.lastName}`, token)
+    // this.sendMailService.sendForgotMail(user.email, `${user.firstName + ' ' + user.lastName}`, token)
 
     // firstValueFrom(
     //   this.mailClient.emit({ cmd: 'FORGOT_PASSWORD' }, {
