@@ -110,7 +110,7 @@ export class UsersAuthController {
   }
 
   @Post('reset-password')
-  @ResetPasswordSession()
+  // @ResetPasswordSession()
   async resetPassword(@Body() body: ResetPasswordDto) {
     const {
       email, password,

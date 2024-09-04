@@ -178,7 +178,7 @@ export class UsersAuthService {
 
     user.save({ validateModifiedOnly: true, validateBeforeSave: false });
 
-    // await this.updateAuthSession({ email: user.email }, { lastPasswordChanged: new Date(Date.now())})
+    await this.updateAuthSession({ email: user.email }, { lastPasswordChanged: new Date(Date.now())})
 
     return { value: { data: user } };
   }
