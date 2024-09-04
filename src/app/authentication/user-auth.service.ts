@@ -67,7 +67,7 @@ export class UsersAuthService {
       await session.commitTransaction();
       session.endSession();
       
-      this.eventEmitter.emit(USER_AUTH_EVENTS.CREATE, user);
+      // this.eventEmitter.emit(USER_AUTH_EVENTS.CREATE, user);
 
       this.sendMailService.sendRegisterMail(user.email, `${user.firstName + ' ' + user.lastName}`)
       
