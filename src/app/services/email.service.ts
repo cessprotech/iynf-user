@@ -123,7 +123,7 @@ export class SendMailService {
 
     generateOtp(): string {
         let num = "";
-        for (let i = 0; i < 6; i++) { 
+        for (let i = 0; i < 4; i++) { 
             num += Math.floor(Math.random() * 10).toString();
         }
         return num;
