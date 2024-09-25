@@ -207,6 +207,9 @@ export class Withdrawal extends Document{
 
     @Prop()
     amount: number
+    
+    @Prop({ default: false })
+    cleared: boolean;
 }
 
 const WithdrawalModelName = Withdrawal.name;
