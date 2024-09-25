@@ -183,6 +183,11 @@ export class AppService {
   
   async withdrawBalance(body: any) {
     let data = await this.userModel.findOne({ userId: body.userId });
+
+    if (!data) {
+      throw new NotFoundException('Invalid userId!');
+    }
+
     let bal = data.balance
 
     if(body.amount > bal){
