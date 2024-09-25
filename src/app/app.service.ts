@@ -16,9 +16,9 @@ export class AppService {
     @InjectModel(User.name)
     private readonly userModel: Model<User> & PaginateModel<User>,
 
-    @InjectModel(TempUserModelName) public readonly tempUserModel: Model<TempUser>,
+    private readonly withdrawalModel: Model<Withdrawal> & PaginateModel<Withdrawal>,
 
-    @InjectModel(WithdrawalModelName) public readonly withdrawalModel: Model<Withdrawal>,
+    @InjectModel(TempUserModelName) public readonly tempUserModel: Model<TempUser>,
 
     @InjectModel(User_Auth_Session.name)
     private readonly userAuthSessionModel: Model<User_Auth_Session> & PaginateModel<User>,
@@ -206,5 +206,11 @@ export class AppService {
     const admin =  await this.withdrawalModel.create(body);     
 
     return { message: 'success', admin }    
+  }
+
+  async fetchUserWithdrawal(query?: Record<string, any>, paginateOptions: PaginateOptions = {}) {
+    const {page, limit, select, sort, ...rest} = query;
+
+    return await this.withdrawalModel.paginate(rest, paginateOptions);
   }
 }

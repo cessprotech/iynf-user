@@ -31,6 +31,7 @@ import { USER_RESPONSE } from '../app.response';
 import { generateUploadURL } from '@app/common/media-upload/cloud';
 import * as mime from 'mime-types';
 import { FollowService } from '@app/services/follow.service';
+import { QueryOptions } from '@app/common/helpers';
 
 @Protect()
 @ApiTags('Users/me')
@@ -148,8 +149,16 @@ export class MeController {
   // }
   
   @Post('withdraw')
-  @Response(USER_RESPONSE.DEFAULT)
+  @Response(USER_RESPONSE.CREATE)
   async withdrawBalance(@Body() body: any) {
     return await this.appService.withdrawBalance(body);
+  }
+
+  // fetch notification
+  @Get('withdraw/:userid')
+  async fetchUserWithdrawal(@Param('userId') userId: string, @Query() query) {
+    const { otherQuery, paginateOptions } = QueryOptions(query, true);
+        
+    return await this.appService.fetchUserWithdrawal({ ...otherQuery, userId }, paginateOptions);
   }
 }
