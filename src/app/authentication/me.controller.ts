@@ -158,6 +158,9 @@ export class MeController {
   @Get('withdraw/:userId')
   async fetchUserWithdrawal(@Param('userId') userId: string, @Query() query) {
     const { otherQuery, paginateOptions } = QueryOptions(query, true);
+
+    console.log('myid', userId);
+    
         
     return await this.appService.fetchUserWithdrawal({ ...otherQuery, userId }, paginateOptions);
   }
