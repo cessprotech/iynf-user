@@ -191,11 +191,36 @@ const NotificationModelName = Notification.name;
 const NotificationSchema = CREATE_SCHEMA<Notification>(Notification);
 
 
+@Schema({ timestamps: true })
+export class Withdrawal extends Document{ 
+    @Prop()
+    userId: string
+    
+    @Prop()
+    accountNumber: string
+
+    @Prop()
+    bankName: string
+
+    @Prop()
+    accountName: string
+
+    @Prop()
+    amount: number
+}
+
+const WithdrawalModelName = Withdrawal.name;
+const WithdrawalSchema = CREATE_SCHEMA<Withdrawal>(Withdrawal);
+
+
 
 const AdminModel = { name: AdminModelName, schema: AdminSchema };
 
 const NotificationModel = { name: NotificationModelName, schema: NotificationSchema };
 
+const WithdrawalModel = { name: WithdrawalModelName, schema: WithdrawalSchema };
+
 const UserModel = { name: UserModelName, schema: UserSchema };
 
-export { UserSchema, UserModelName, UserModel, AdminModel, AdminModelName, AdminSchema, NotificationModel, NotificationModelName,  NotificationSchema };
+
+export { UserSchema, UserModelName, UserModel, AdminModel, AdminModelName, AdminSchema, NotificationModel, NotificationModelName,  NotificationSchema, WithdrawalModel, WithdrawalModelName, WithdrawalSchema  };

@@ -141,9 +141,15 @@ export class MeController {
   }
 
   
-  @Patch(`balance`)
+  // @Patch(`balance`)
+  // @Response(USER_RESPONSE.DEFAULT)
+  // async addbalance() {
+  //   return await this.appService.addbalance();
+  // }
+  
+  @Post('withdraw')
   @Response(USER_RESPONSE.DEFAULT)
-  async addbalance() {
-    return await this.appService.addbalance();
+  async withdrawBalance(@Body() body: any) {
+    return await this.appService.withdrawBalance(body);
   }
 }

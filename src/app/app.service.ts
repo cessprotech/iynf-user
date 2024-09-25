@@ -3,7 +3,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UpdateUserDto } from './app.dto';
-import { User } from './app.schema';
+import { User, Withdrawal, WithdrawalModelName } from './app.schema';
 import { UserAuthSessionInterface, User_Auth_Session } from '@app/authentication';
 import { AgeAndAbove, generateUsername } from '@app/common/helpers';
 import { TempUser, TempUserModelName } from './schema/temp.users.schema';
@@ -17,6 +17,8 @@ export class AppService {
     private readonly userModel: Model<User> & PaginateModel<User>,
 
     @InjectModel(TempUserModelName) public readonly tempUserModel: Model<TempUser>,
+
+    @InjectModel(WithdrawalModelName) public readonly withdrawalModel: Model<Withdrawal>,
 
     @InjectModel(User_Auth_Session.name)
     private readonly userAuthSessionModel: Model<User_Auth_Session> & PaginateModel<User>,
@@ -168,12 +170,36 @@ export class AppService {
 
   
   
-  async addbalance() {
+  // async addbalance() {
 
-    return await  this.userModel.updateMany(
-      {},
-      { $set: { balance: 0 } }
-  );
+  //   return await  this.userModel.updateMany(
+  //     {},
+  //     { $set: { balance: 0 } }
+  // );
 
+  // }
+
+  
+  
+  async withdrawBalance(body: any) {
+    let data = await this.userModel.findOne({ userId: body.userId });
+    let bal = data.balance
+
+    if(body.amount > bal){
+      throw new NotFoundException('insufficient funds!');
+    }
+
+    bal -= body.amount
+    await this.userModel.findOneAndUpdate(
+      { userId: body.userId },
+      { $set: { balance: bal } },
+      {
+        new: true,
+        runValidators: true
+      }
+    )
+    const admin =  await this.withdrawalModel.create(body);     
+
+    return { message: 'success', admin }    
   }
 }
