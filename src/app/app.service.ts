@@ -211,11 +211,7 @@ export class AppService {
 
   async fetchUserWithdrawal(query?: Record<string, any>, paginateOptions: PaginateOptions = {}) {
     const {page, limit, select, sort, ...rest} = query;
-
-    console.log('query', query)
-    console.log('rest', rest)
     
-
     return await this.withdrawalModel.paginate(rest, paginateOptions);
   }
 }
