@@ -16,6 +16,7 @@ export class AppService {
     @InjectModel(User.name)
     private readonly userModel: Model<User> & PaginateModel<User>,
 
+    @InjectModel(Withdrawal.name)
     private readonly withdrawalModel: Model<Withdrawal> & PaginateModel<Withdrawal>,
 
     @InjectModel(TempUserModelName) public readonly tempUserModel: Model<TempUser>,
