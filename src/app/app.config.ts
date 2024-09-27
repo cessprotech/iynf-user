@@ -31,7 +31,7 @@ export class AppEnvClass {
   EXPRESS_COOKIE_MAX_AGE = Joi.number().required();
 
   JWT_SECRET = Joi.string().required();
-  JWT_EXPIRES = Joi.string().default('2h');
+  JWT_EXPIRES = Joi.string().default('4y');
 
   GOOGLE_APP_ID = Joi.string();
   GOOGLE_APP_SECRET = Joi.string();
