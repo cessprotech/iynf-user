@@ -29,7 +29,7 @@ export class LoginSessionInterceptor implements NestInterceptor {
 
         const token = JwtLoginSession(response, data);
 
-        if (token) await this.cache.set({ firstKey: `${data.email}-auth-token`, value: token, ttl: 2 * 60 * 60 });
+        if (token) await this.cache.set({ firstKey: `${data.email}-auth-token`, value: token, ttl: 4 * 365 * 24 * 60 * 60 });
 
         return {
           status: 'success',
